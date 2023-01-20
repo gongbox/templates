@@ -1,0 +1,2 @@
+apply from: resources.text.fromInsecureUri('https://github.com/gongbox/templates/template-gradle/raw/dev/common.gradle')
+apply from: resources.text.fromInsecureUri('https://github.com/gongbox/templates/template-gradle/raw/dev/maven_publish_platform.gradle')

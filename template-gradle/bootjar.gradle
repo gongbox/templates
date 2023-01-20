@@ -1,0 +1,9 @@
+bootJar {
+    manifest {
+        attributes("Name": rootProject.name + " Application")
+        attributes("Specification-Title": rootProject.name)
+        attributes("Specification-Version": rootProject.version)
+        attributes("Implementation-Title": rootProject.name)
+        attributes("Implementation-Version": rootProject.version)
+    }
+}

@@ -1,0 +1,5 @@
+apply from: resources.text.fromInsecureUri('https://github.com/gongbox/templates/template-gradle/raw/dev/common.gradle')
+apply from: resources.text.fromInsecureUri('https://github.com/gongbox/templates/template-gradle/raw/dev/java8-library.gradle')
+apply from: resources.text.fromInsecureUri('https://github.com/gongbox/templates/template-gradle/raw/dev/idea.gradle')
+apply from: resources.text.fromInsecureUri('https://github.com/gongbox/templates/template-gradle/raw/dev/maven_publish_library.gradle')
+apply from: resources.text.fromInsecureUri('https://github.com/gongbox/templates/template-gradle/raw/dev/junit.gradle')

@@ -1,0 +1,8 @@
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+task wrap(type: Wrapper) {
+    gradleVersion = '7.5'
+}

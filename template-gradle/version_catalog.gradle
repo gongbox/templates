@@ -1,0 +1,3 @@
+apply from: resources.text.fromInsecureUri('https://github.com/gongbox/templates/template-gradle/raw/dev/common.gradle')
+apply plugin: 'version-catalog'
+apply from: resources.text.fromInsecureUri('https://github.com/gongbox/templates/template-gradle/raw/dev/maven_publish_version_catalog.gradle')

@@ -1,0 +1,164 @@
+ext {
+    versions = [
+            //依赖管理版本
+            spring_boot_version = '2.6.10',
+            spring_cloud_version = '2021.0.3',
+            spring_cloud_alibaba_version = '2021.0.1.0',
+            junit5_version = '5.8.2',
+            hutool_version = '5.8.4',
+
+            //第三方依赖版本
+            redisson_version = '3.17.4',
+            rocketmq_version = '2.2.2',
+            mybatis_plus_version = '3.5.2',
+            mapstruct_version = '1.5.2.Final',
+            guava_version = '31.1-jre',
+            fastjson_version = '1.2.76',
+            lombok_version = '1.18.24',
+            skywalking_version = '8.8.0',
+            flyway_version = '7.15.0',
+
+            //自研组件版本
+            template_version = '1.0.0-SNAPSHOT'
+    ]
+    platforms = [
+            platform('spring-boot-dependencies', "org.springframework.boot:spring-boot-dependencies:${spring_boot_version}", "BASIC",
+                    [[group: 'org.flywaydb', module: 'flyway-core']]),
+            platform('spring-cloud-dependencies', "org.springframework.cloud:spring-cloud-dependencies:${spring_cloud_version}", "BASIC"),
+            platform('spring-cloud-alibaba-dependencies', "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${spring_cloud_alibaba_version}", "BASIC"),
+            platform('junit-bom', "org.junit:junit-bom:${junit5_version}", "BASIC"),
+            platform('hutool-bom', "cn.hutool:hutool-bom:${hutool_version}", "BASIC"),
+    ]
+    template_libs = [
+            //通用异常
+            library("template-exception", "com.sangon.template:template-exception:${template_version}", "BASIC"),
+            //通用工具
+            library("template-common", "com.sangon.template:template-common:${template_version}", "BASIC"),
+            //日志组件
+            library("template-logging-starter", "com.sangon.template:template-logging-starter:${template_version}", "BASIC"),
+            //通用web配置
+            library("template-web-starter", "com.sangon.template:template-web-starter:${template_version}", "BASIC"),
+            //flyway
+            library("template-flyway-starter", "com.sangon.template:template-flyway-starter:${template_version}", "BASIC"),
+            //nacos
+            library("template-nacos-starter", "com.sangon.template:template-nacos-starter:${template_version}", "BASIC"),
+            //apidoc
+            library("template-swagger3-starter", "com.sangon.template:template-apidoc-starter:${template_version}", "BASIC"),
+            //mybatis-plus
+            library("template-mybatis-plus-starter", "com.sangon.template:template-mybatis-plus-starter:${template_version}", "BASIC"),
+    ]
+    third_libs = [
+            //redis
+            library("redisson", "org.redisson:redisson:${redisson_version}", "BASIC"),
+            //rocketmq
+            library("rocketmq", 'org.apache.rocketmq:rocketmq-client:4.9.4', "BASIC"),
+            library("rocketmq-spring-boot-starter", "org.apache.rocketmq:rocketmq-spring-boot-starter:${rocketmq_version}", "BASIC"),
+            //skywalking
+            library("skywalking-logback", "org.apache.skywalking:apm-toolkit-logback-1.x:${skywalking_version}", "BASIC"),
+            library("skywalking-trace", "org.apache.skywalking:apm-toolkit-trace:${skywalking_version}", "BASIC"),
+            library("skywalking-opentracing", "org.apache.skywalking:apm-toolkit-opentracing:${skywalking_version}", "BASIC"),
+            //数据库
+            library("mysql-connector", "mysql:mysql-connector-java:8.0.22", "BASIC", true),
+            library("mybatis-plus-boot-starter", "com.baomidou:mybatis-plus-boot-starter:${mybatis_plus_version}", "BASIC"),
+            library("mybatis-plus-annotation", "com.baomidou:mybatis-plus-annotation:${mybatis_plus_version}", "BASIC"),
+            //mapstruct
+            library("mapstruct", "org.mapstruct:mapstruct:${mapstruct_version}", "BASIC"),
+            library("mapstruct-processor", "org.mapstruct:mapstruct-processor:${mapstruct_version}", "BASIC"),
+            //lombok
+            /**
+             * lombok由spring-boot-dependencies管理，版本为1.8.24
+             */
+            //日志
+            /**
+             * slf4j-api、logback-classic、logback-core、logback-access由spring-boot-dependencies管理，版本为1.7.36
+             * org.codehaus.janino:janino由spring-boot-dependencies管理
+             */
+            //工具
+            library("guava", "com.google.guava:guava:${guava_version}", "BASIC"),
+            library("fastjson", "com.alibaba:fastjson:${fastjson_version}", "BASIC"),
+            //apidoc
+            library("springfox-boot-starter", "io.springfox:springfox-boot-starter:3.0.0", "BASIC"),
+            library("knife4j-spring-ui", "com.github.xiaoymin:knife4j-spring-ui:3.0.3", "BASIC"),
+            library("swagger-annotations-v3", "io.swagger.core.v3:swagger-annotations:2.1.2", "BASIC"),
+            library("swagger-annotations", "io.swagger:swagger-annotations:1.5.20", "BASIC"),
+            //校验
+            //hibernate-validator版本由springboot管理
+            //flyway
+            /**
+             * 默认版本由springboot管理，springboot2.6.10对应版本为8.0.5,但该版本不支持mysql5.7，mysql5.7只能使用8.0.0版本以下
+             */
+            library("flyway", "org.flywaydb:flyway-core:${flyway_version}", "BASIC"),
+            library("lombok-mapstruct-binding", "org.projectlombok:lombok-mapstruct-binding:0.2.0", "BASIC"),
+    ]
+    platform_catalog_libs = [
+            library("spring-boot-starter-web", 'org.springframework.boot:spring-boot-starter-web', "BASIC"),
+            library("spring-boot-starter-aop", 'org.springframework.boot:spring-boot-starter-aop', "BASIC"),
+    ]
+}
+
+//依赖包
+class Library {
+    String name
+    String group
+    String module
+    String version
+    String location
+    String scope
+    boolean withoutVersion
+    boolean runtimeOnly
+
+    Library(name, group, module, version, scope, runtimeOnly) {
+        this.name = name
+        this.group = group
+        this.module = module
+        this.version = version
+        if (version != null && version != '') {
+            withoutVersion = false
+            this.location = group + ":" + module + ":" + version
+        } else {
+            withoutVersion = true
+            this.location = group + ":" + module
+        }
+        this.scope = scope
+        this.runtimeOnly = runtimeOnly
+    }
+
+    Library(name, location, scope, runtimeOnly) {
+        this.name = name
+        def locations = location.split(":")
+        this.group = locations[0]
+        this.module = locations[1]
+        if (locations.length == 3) {
+            this.version = locations[2]
+        } else {
+            this.version = null
+        }
+        if (version != null && version != '') {
+            withoutVersion = false
+            this.location = group + ":" + module + ":" + version
+        } else {
+            withoutVersion = true
+            this.location = group + ":" + module
+        }
+        this.scope = scope
+        this.runtimeOnly = runtimeOnly
+    }
+}
+
+//平台包
+class Platform extends Library {
+    Map<String, String>[] exclude
+
+    Platform(name, position, scope, exclude) {
+        super(name, position, scope, false)
+        this.exclude = exclude
+    }
+}
+
+static def library(name, location, scope, runtimeOnly = false) {
+    return new Library(name, location, scope, runtimeOnly)
+}
+
+static def platform(name, location, scope, exclude = []) {
+    return new Platform(name, location, scope, exclude)
+}

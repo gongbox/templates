@@ -1,0 +1,31 @@
+apply plugin: 'maven-publish'
+apply plugin: 'java-platform'
+
+// 通过这个配置可以让Gradle允许引入依赖，当然这是可选的
+javaPlatform {
+    allowDependencies()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.javaPlatform
+        }
+    }
+    repositories {
+        maven {
+            allowInsecureProtocol = true
+            // 指定要上传的maven私服仓库
+            if (version.endsWith('SNAPSHOT')) {
+                url = maven_publishing_url_snapshot
+            } else {
+                url = maven_publishing_url
+            }
+            // 认证用户和密码
+            credentials {
+                username maven_publishing_username
+                password maven_publishing_password
+            }
+        }
+    }
+}
